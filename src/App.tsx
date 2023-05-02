@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react"
+import Navbar from "./components/Navbar"
 
 const App: FC = () => {
 	const defaultTheme = localStorage.getItem("theme")
@@ -20,15 +21,9 @@ const App: FC = () => {
 		setDarkmode()
 	}
 	return (
-		<>
-			<input
-				type="checkbox"
-				name="toggle-theme"
-				id="toggle-theme"
-				onChange={changeTheme}
-				defaultChecked={defaultTheme === "dark"}
-			/>
-		</>
+		<section className="relative h-screen">
+			<Navbar />
+		</section>
 	)
 }
 
