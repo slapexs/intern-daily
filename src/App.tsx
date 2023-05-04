@@ -21,7 +21,7 @@ const App: FC = () => {
 		setDarkmode()
 	}
 	return (
-		<section className="relative h-screen">
+		<section>
 			<Navbar />
 		</section>
 	)
