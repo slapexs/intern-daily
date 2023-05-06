@@ -20,6 +20,7 @@ const App: FC = () => {
 	if (defaultTheme == "dark") {
 		setDarkmode()
 	}
+
 	return (
 		<section>
 			<Navbar />

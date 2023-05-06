@@ -11,20 +11,23 @@ const Navbar: FC = () => {
 	return (
 		<section className="w-full bg-zinc-100 absolute bottom-0">
 			<ul className="flex justify-around">
-				{links.map((elem, index) => (
-					<NavLink
-						key={index}
-						to={elem.path}
-						className={({ isActive, isPending }) =>
-							isPending ? pending : isActive ? active : defaultLink
-						}
-					>
-						<li className="flex flex-col items-center">
-							{elem.icon}
-							<span className="text-xs">{elem.label}</span>
-						</li>
-					</NavLink>
-				))}
+				{links.map(
+					(elem, index) =>
+						elem.showInNavbar && (
+							<NavLink
+								key={index}
+								to={elem.path}
+								className={({ isActive, isPending }) =>
+									isPending ? pending : isActive ? active : defaultLink
+								}
+							>
+								<li className="flex flex-col items-center">
+									{elem.icon}
+									<span className="text-xs">{elem.label}</span>
+								</li>
+							</NavLink>
+						)
+				)}
 			</ul>
 		</section>
 	)
