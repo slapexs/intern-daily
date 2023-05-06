@@ -2,7 +2,7 @@ import { FC } from "react"
 import Navbar from "../components/Navbar"
 import InputFields from "../components/InputField"
 import TextareaField from "../components/TextareaField"
-import FileInputField from "../components/fileInputField"
+import FileInputField from "../components/FileInputField"
 
 const CratePage: FC = () => {
 	return (

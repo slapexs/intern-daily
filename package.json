@@ -13,8 +13,8 @@
     "@types/react-router-dom": "^5.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.8.0",
-    "react-router-dom": "^6.11.0"
+    "react-router-dom": "^6.11.0",
+    "remixicon-react": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.16.3",

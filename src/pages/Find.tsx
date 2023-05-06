@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar"
 import InputFields from "../components/InputField"
 import ListRecord from "../components/ListRecord"
 
-import { HiOutlineSwitchVertical } from "react-icons/Hi"
+import ArrowUpDownLineIcon from "remixicon-react/ArrowUpDownLineIcon"
 
 const FindPage: FC = () => {
 	const listElem = []
@@ -31,7 +31,7 @@ const FindPage: FC = () => {
 						</div>
 
 						<div>
-							<HiOutlineSwitchVertical />
+							<ArrowUpDownLineIcon />
 						</div>
 					</div>
 

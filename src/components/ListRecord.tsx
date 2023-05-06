@@ -1,6 +1,5 @@
 import { FC } from "react"
-import { HiOutlineCalendar, HiOutlineStar } from "react-icons/Hi"
-
+import CalendarLineIcon from "remixicon-react/CalendarLineIcon"
 type listProps = {
 	title: number
 }
@@ -11,14 +10,14 @@ const ListRecord: FC<listProps> = ({ title }) => {
 			<div className="space-y-1">
 				<h1 className="font-bold">#{title + 1} Lorem, ipsum dolor.</h1>
 				<p className="text-xs font-light text-gray-400 flex items-center gap-x-2">
-					<HiOutlineCalendar />
+					<CalendarLineIcon />
 					06/05/2023
 				</p>
 			</div>
 
 			<div>
 				<p className="w-fit h-fit">
-					<HiOutlineStar />
+					<CalendarLineIcon />
 				</p>
 			</div>
 		</div>
