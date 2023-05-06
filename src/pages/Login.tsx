@@ -1,8 +1,23 @@
 import { FC, useState } from "react"
-
+import { useNavigate } from "react-router-dom"
 const Login: FC = () => {
+	const navigate = useNavigate()
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
+
+	const setTokenAuth = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+
+		// Check username & password
+		if (username == "slapexs") {
+			localStorage.setItem("auth-token", username)
+			navigate("/")
+		} else {
+			alert("Username is invalid")
+			setUsername("")
+			setPassword("")
+		}
+	}
 
 	return (
 		<section className="flex flex-col w-full justify-center items-center h-screen">
@@ -18,7 +33,12 @@ const Login: FC = () => {
 					aria-label="section-login"
 					className="mt-10 w-full"
 				>
-					<form action="#" id="form-login" method="post" className="space-y-3">
+					<form
+						onSubmit={setTokenAuth}
+						id="form-login"
+						method="post"
+						className="space-y-3"
+					>
 						<input
 							id="username-input"
 							name="username-input"
@@ -29,6 +49,7 @@ const Login: FC = () => {
 							aria-label="username-input"
 							onChange={(e) => setUsername(e.target.value)}
 							required={true}
+							value={username}
 						/>
 						<input
 							id="password-input"
@@ -39,6 +60,7 @@ const Login: FC = () => {
 							aria-label="password-input"
 							onChange={(e) => setPassword(e.target.value)}
 							required={true}
+							value={password}
 						/>
 
 						<div className="">
