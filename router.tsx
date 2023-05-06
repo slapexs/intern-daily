@@ -1,21 +1,21 @@
 import { createBrowserRouter } from "react-router-dom"
+// Pages
 import App from "./src/App"
 import CratePage from "./src/pages/Create"
-
-import {
-	HiOutlineHome,
-	HiPlus,
-	HiSearch,
-	HiOutlineLogout,
-} from "react-icons/Hi"
 import FindPage from "./src/pages/Find"
 import Login from "./src/pages/Login"
+// Icons
+import Home4LineIcon from "remixicon-react/Home4LineIcon"
+import AddLineIcon from "remixicon-react/AddLineIcon"
+import SearchLineIcon from "remixicon-react/SearchLineIcon"
+import LogoutBoxRLineIcon from "remixicon-react/LogoutBoxRLineIcon"
+import { RemixiconReactIconComponentType } from "remixicon-react"
 
 type linkProps = {
 	label: string
 	path: string
-	element?: JSX.Element | string
-	icon?: JSX.Element | string
+	element?: JSX.Element
+	icon?: RemixiconReactIconComponentType | any
 	showInNavbar: boolean
 	clickFunction?: () => void
 }[]
@@ -25,21 +25,21 @@ export const links: linkProps = [
 		path: "/",
 		label: "Home",
 		element: <App />,
-		icon: <HiOutlineHome />,
+		icon: <Home4LineIcon />,
 		showInNavbar: true,
 	},
 	{
 		path: "/create",
 		label: "Create",
 		element: <CratePage />,
-		icon: <HiPlus />,
+		icon: <AddLineIcon />,
 		showInNavbar: true,
 	},
 	{
 		path: "/find",
 		label: "Find",
 		element: <FindPage />,
-		icon: <HiSearch />,
+		icon: <SearchLineIcon />,
 		showInNavbar: true,
 	},
 	{
@@ -52,7 +52,7 @@ export const links: linkProps = [
 		path: "/login",
 		label: "Logout",
 		showInNavbar: true,
-		icon: <HiOutlineLogout />,
+		icon: <LogoutBoxRLineIcon />,
 		clickFunction: () => {
 			localStorage.removeItem("auth-token")
 		},
