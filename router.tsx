@@ -2,16 +2,22 @@ import { createBrowserRouter } from "react-router-dom"
 import App from "./src/App"
 import CratePage from "./src/pages/Create"
 
-import { HiOutlineHome, HiPlus, HiSearch } from "react-icons/Hi"
-import FindPage from "./src/pages/find"
+import {
+	HiOutlineHome,
+	HiPlus,
+	HiSearch,
+	HiOutlineLogout,
+} from "react-icons/Hi"
+import FindPage from "./src/pages/Find"
 import Login from "./src/pages/Login"
 
 type linkProps = {
 	label: string
 	path: string
-	element: JSX.Element | string
+	element?: JSX.Element | string
 	icon?: JSX.Element | string
 	showInNavbar: boolean
+	clickFunction?: () => void
 }[]
 
 export const links: linkProps = [
@@ -41,6 +47,15 @@ export const links: linkProps = [
 		label: "Login",
 		element: <Login />,
 		showInNavbar: false,
+	},
+	{
+		path: "/login",
+		label: "Logout",
+		showInNavbar: true,
+		icon: <HiOutlineLogout />,
+		clickFunction: () => {
+			localStorage.removeItem("auth-token")
+		},
 	},
 ]
 

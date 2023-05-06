@@ -1,7 +1,15 @@
 import { FC, useEffect, useState } from "react"
 import Navbar from "./components/Navbar"
+import { useNavigate } from "react-router-dom"
 
 const App: FC = () => {
+	const navigate = useNavigate()
+	useEffect(() => {
+		const authToken = localStorage.getItem("auth-token")
+		if (!authToken) {
+			navigate("/login")
+		}
+	}, [])
 	const defaultTheme = localStorage.getItem("theme")
 
 	const setDarkmode = () => {

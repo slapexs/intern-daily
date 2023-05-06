@@ -20,6 +20,7 @@ const Navbar: FC = () => {
 								className={({ isActive, isPending }) =>
 									isPending ? pending : isActive ? active : defaultLink
 								}
+								onClick={elem.clickFunction && elem.clickFunction}
 							>
 								<li className="flex flex-col items-center">
 									{elem.icon}
