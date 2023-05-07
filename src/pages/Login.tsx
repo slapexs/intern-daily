@@ -71,7 +71,7 @@ const Login: FC = () => {
 								type="submit"
 								id="btn-login"
 								name="btn-login"
-								className="bg-violet-400 rounded-lg w-full py-3 text-white mt-5"
+								className="bg-violet-600 rounded-lg w-full py-3 text-white mt-5"
 							>
 								Login
 							</button>
