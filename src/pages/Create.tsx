@@ -4,9 +4,12 @@ import InputFields from "../components/InputField"
 import TextareaField from "../components/TextareaField"
 import FileInputField from "../components/FileInputField"
 
+import TagHeader from "../components/TagHeader"
+
 const CratePage: FC = () => {
 	return (
 		<section className="w-full flex justify-center">
+			<TagHeader title="Create new | Intern-daily" />
 			<div className="w-11/12 mt-10">
 				<div className="mb-5 space-y-2">
 					<h1 className="font-bold text-3xl">Create new</h1>

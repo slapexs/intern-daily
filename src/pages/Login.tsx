@@ -1,5 +1,7 @@
 import { FC, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import TagHeader from "../components/TagHeader"
+
 const Login: FC = () => {
 	const navigate = useNavigate()
 	const [username, setUsername] = useState("")
@@ -21,6 +23,7 @@ const Login: FC = () => {
 
 	return (
 		<section className="flex flex-col w-full justify-center items-center h-screen">
+			<TagHeader title="Login | Intern-daily" />
 			<div className="w-9/12">
 				{/* Form login */}
 				<div className="w-full">
