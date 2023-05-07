@@ -1,6 +1,7 @@
 import { FC, useEffect } from "react"
 import Navbar from "./components/Navbar"
 import { useNavigate } from "react-router-dom"
+import TagHeader from "./components/TagHeader"
 
 const App: FC = () => {
 	const navigate = useNavigate()
@@ -13,6 +14,7 @@ const App: FC = () => {
 
 	return (
 		<section>
+			<TagHeader title="Home | Intern-daily" />
 			<Navbar />
 		</section>
 	)
