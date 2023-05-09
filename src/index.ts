@@ -1,18 +1,17 @@
-import express, { Express, Request, Response } from "express"
+import express, { Application, Request, Response } from "express"
 import cors from "cors"
 import dotenv from "dotenv"
 
 dotenv.config()
+// Router
+const userRouter = require("./routers/User")
 
-const app: Express = express()
+const app: Application = express()
 const port: number = 5000
 
 // Extension express
 app.use(express.json())
 app.use(cors())
-
-// Router
-const loginRouter = require("./routers/Create")
 
 // Home page
 app.get("/", (req: Request, res: Response) =>
@@ -20,6 +19,6 @@ app.get("/", (req: Request, res: Response) =>
 )
 
 // Controller
-app.use("/auth", loginRouter)
+app.use("/user", userRouter)
 
 app.listen(port, () => console.log(`Server running on port ${port}`))
