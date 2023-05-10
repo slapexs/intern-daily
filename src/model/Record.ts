@@ -42,4 +42,10 @@ const insertRecords = async ({
 	}
 }
 
-export { insertRecords }
+// Find all records
+const findRecords = async () => {
+	const records = collection.find().toArray()
+	return records
+}
+
+export { insertRecords, findRecords }
