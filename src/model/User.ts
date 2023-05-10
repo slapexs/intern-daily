@@ -28,7 +28,7 @@ interface createUserProps {
 	name: string
 }
 
-interface responseStatusProps {
+export interface responseStatusProps {
 	status: string
 	statusCode: number
 	token?: any
