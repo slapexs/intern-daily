@@ -5,6 +5,7 @@ import {
 	findRecords,
 	findById,
 	delRecord,
+	updateRecord,
 } from "../model/Record"
 
 // Create new
@@ -35,6 +36,19 @@ router.delete("/del/:id", async (req: Request, res: Response) => {
 	const recordId: string = req.params.id
 	const { status, statusCode } = await delRecord(recordId)
 	res.status(statusCode).json({ status })
+})
+
+// Update record
+router.put("/update/:id", async (req: Request, res: Response) => {
+	const recordId: string = req.params.id
+	const { topic, detail, date, imageName } = req.body
+	const { status, statusCode, data } = await updateRecord(recordId, {
+		topic,
+		detail,
+		date,
+		imageName,
+	})
+	res.status(statusCode).json({ status, data })
 })
 
 module.exports = router

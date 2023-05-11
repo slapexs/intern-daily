@@ -57,7 +57,9 @@ const findById = async (recordId: string) => {
 		}
 		return response
 	} else {
-		const record = await collection.findOne({ recordId })
+		const filter = { recordId }
+		const projection = { _id: 0 }
+		const record = await collection.findOne(filter, { projection })
 		const response: responseStatusProps = {
 			status: "Found record",
 			statusCode: 200,
@@ -76,7 +78,7 @@ const delRecord = (recordId: string) => {
 		}
 		return response
 	} else {
-		const record = collection.deleteOne({ recordId })
+		collection.deleteOne({ recordId })
 		const response: responseStatusProps = {
 			status: `${recordId} has deleted`,
 			statusCode: 200,
@@ -85,4 +87,28 @@ const delRecord = (recordId: string) => {
 	}
 }
 
-export { insertRecords, findRecords, findById, delRecord }
+// Update record
+const updateRecord = async (
+	recordId: string,
+	{ topic, detail, date, imageName }: recordProps
+) => {
+	if (!recordId) {
+		const response: responseStatusProps = {
+			status: "Record ID is empty please check",
+			statusCode: 400,
+		}
+		return response
+	} else {
+		const filter = { recordId }
+		const update = { $set: { topic, detail, date, imageName } }
+		collection.updateOne(filter, update)
+		const { data } = await findById(recordId)
+		const response: responseStatusProps = {
+			status: `record: ${recordId} has updated`,
+			statusCode: 200,
+			data,
+		}
+		return response
+	}
+}
+export { insertRecords, findRecords, findById, delRecord, updateRecord }
