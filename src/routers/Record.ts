@@ -1,6 +1,11 @@
 import express, { Request, Response, Router } from "express"
 const router: Router = express.Router()
-import { insertRecords, findRecords, findById } from "../model/Record"
+import {
+	insertRecords,
+	findRecords,
+	findById,
+	delRecord,
+} from "../model/Record"
 
 // Create new
 router.post("/create", async (req: Request, res: Response) => {
@@ -23,6 +28,13 @@ router.get("/find/:id", async (req: Request, res: Response) => {
 	} else {
 		res.status(statusCode).json({ status })
 	}
+})
+
+// Delete record
+router.delete("/del/:id", async (req: Request, res: Response) => {
+	const recordId: string = req.params.id
+	const { status, statusCode } = await delRecord(recordId)
+	res.status(statusCode).json({ status })
 })
 
 module.exports = router

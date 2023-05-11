@@ -67,4 +67,22 @@ const findById = async (recordId: string) => {
 	}
 }
 
-export { insertRecords, findRecords, findById }
+// Delete record by id
+const delRecord = (recordId: string) => {
+	if (!recordId) {
+		const response: responseStatusProps = {
+			status: "Record ID is empty please check",
+			statusCode: 400,
+		}
+		return response
+	} else {
+		const record = collection.deleteOne({ recordId })
+		const response: responseStatusProps = {
+			status: `${recordId} has deleted`,
+			statusCode: 200,
+		}
+		return response
+	}
+}
+
+export { insertRecords, findRecords, findById, delRecord }
