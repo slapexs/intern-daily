@@ -32,6 +32,7 @@ export interface responseStatusProps {
 	status: string
 	statusCode: number
 	token?: any
+	data?: string | any
 }
 
 const createUser = async ({ username, password, name }: createUserProps) => {

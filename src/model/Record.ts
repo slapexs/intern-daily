@@ -44,8 +44,27 @@ const insertRecords = async ({
 
 // Find all records
 const findRecords = async () => {
-	const records = collection.find().toArray()
+	const records = await collection.find().project({ _id: 0 }).toArray()
 	return records
 }
 
-export { insertRecords, findRecords }
+// Find record by id
+const findById = async (recordId: string) => {
+	if (!recordId) {
+		const response: responseStatusProps = {
+			status: "Record ID is empty please check",
+			statusCode: 400,
+		}
+		return response
+	} else {
+		const record = await collection.findOne({ recordId })
+		const response: responseStatusProps = {
+			status: "Found record",
+			statusCode: 200,
+			data: record,
+		}
+		return response
+	}
+}
+
+export { insertRecords, findRecords, findById }
