@@ -8,7 +8,7 @@ import Login from "./src/pages/Login"
 import Home4LineIcon from "remixicon-react/Home4LineIcon"
 import AddLineIcon from "remixicon-react/AddLineIcon"
 import SearchLineIcon from "remixicon-react/SearchLineIcon"
-import LogoutBoxRLineIcon from "remixicon-react/LogoutBoxRLineIcon"
+
 import { RemixiconReactIconComponentType } from "remixicon-react"
 
 type linkProps = {
@@ -17,7 +17,6 @@ type linkProps = {
 	element?: JSX.Element
 	icon?: RemixiconReactIconComponentType | any
 	showInNavbar: boolean
-	clickFunction?: () => void
 }[]
 
 export const links: linkProps = [
@@ -47,15 +46,6 @@ export const links: linkProps = [
 		label: "Login",
 		element: <Login />,
 		showInNavbar: false,
-	},
-	{
-		path: "/login",
-		label: "Logout",
-		showInNavbar: true,
-		icon: <LogoutBoxRLineIcon />,
-		clickFunction: () => {
-			localStorage.removeItem("auth-token")
-		},
 	},
 ]
 
