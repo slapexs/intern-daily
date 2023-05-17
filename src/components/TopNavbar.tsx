@@ -1,10 +1,10 @@
 import iconProfile from "../assets/icons8-stan-marsh-48.png"
 import { FC, useState } from "react"
 import LogoutBoxRLineIcon from "remixicon-react/LogoutBoxRLineIcon"
-import { NavigateFunction, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const TopNavbar: FC = () => {
-	const navigate: NavigateFunction = useNavigate()
+	const navigate = useNavigate()
 	const [user, setUser] = useState<string>("Mai bok na")
 	return (
 		<section className="w-full flex justify-between items-center mb-5">
