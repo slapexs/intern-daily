@@ -12,7 +12,7 @@ const FindPage: FC = () => {
 		listElem.push(<ListRecord title={index} />)
 	}
 	return (
-		<section className="w-full flex justify-center">
+		<section className="w-full flex justify-center mb-20">
 			<TagHeader title="Find record | Intern-daily" />
 			<div className="w-11/12 mt-10">
 				<div className="mb-5 space-y-2">
