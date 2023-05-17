@@ -1,30 +1,25 @@
 import { FC } from "react"
-import { links } from "../../router"
 import { NavLink } from "react-router-dom"
-
+import { links } from "../router"
 const Navbar: FC = () => {
-	const defaultLink =
-		"p-2 w-full hover:bg-violet-500 hover:text-white hover:cursor-pointer"
-	const pending =
-		"p-2 w-full hover:bg-violet-600 hover:text-white hover:cursor-pointer"
-	const active = "bg-violet-600 text-white cursor-pointer w-full p-2"
+	const activeMenu = " bg-purple-500 text-white font-bold"
+	const defaultMenu =
+		"w-full flex justify-center flex-col gap-x-2 items-center py-2"
 	return (
-		<section className="w-full bg-neutral-100 fixed bottom-0 left-0">
+		<section className="w-full bg-neutral-100 fixed bottom-0 left-0 text-black text-xs">
 			<ul className="flex justify-around">
 				{links.map(
 					(elem, index) =>
 						elem.showInNavbar && (
 							<NavLink
-								key={index}
 								to={elem.path}
-								className={({ isActive, isPending }) =>
-									isPending ? pending : isActive ? active : defaultLink
+								key={index}
+								className={({ isActive }) =>
+									isActive ? defaultMenu + activeMenu : defaultMenu
 								}
 							>
-								<li className="flex flex-col items-center">
-									{elem.icon}
-									<span className="text-xs">{elem.label}</span>
-								</li>
+								{elem.icon}
+								{elem.label}
 							</NavLink>
 						)
 				)}
