@@ -2,7 +2,6 @@ import { FC } from "react"
 import Navbar from "../components/Navbar"
 import InputFields from "../components/InputField"
 import ListRecord from "../components/ListRecord"
-import TagHeader from "../components/TagHeader"
 
 import ArrowUpDownLineIcon from "remixicon-react/ArrowUpDownLineIcon"
 
@@ -13,7 +12,6 @@ const FindPage: FC = () => {
 	}
 	return (
 		<section className="w-full flex justify-center mb-20">
-			<TagHeader title="Find record | Intern-daily" />
 			<div className="w-11/12 mt-10">
 				<div className="mb-5 space-y-2">
 					<h1 className="font-bold text-3xl">Find record</h1>
