@@ -2,19 +2,21 @@ import { FC } from "react"
 import CalendarLineIcon from "remixicon-react/CalendarLineIcon"
 import StartLineIcon from "remixicon-react/StarLineIcon"
 type listProps = {
-	title: number
+	title: string
+	date: string
+	detail?: string
+	imageName?: string
+	recordId: string
 }
 
-const ListRecord: FC<listProps> = ({ title }) => {
+const ListRecord: FC<listProps> = ({ title, date, recordId }) => {
 	return (
 		<div className="w-full flex justify-between my-3 rounded-lg bg-white outline outline-1 outline-gray-200 px-3 py-4 shadow-sm">
 			<div className="space-y-1">
-				<h1 className="font-bold text-violet-600">
-					#{title + 1} Lorem, ipsum dolor.
-				</h1>
+				<h1 className="font-bold text-violet-600">{title}</h1>
 				<p className="text-xs font-light text-gray-400 flex items-center gap-x-2">
 					<CalendarLineIcon />
-					06/05/2023
+					{date}
 				</p>
 			</div>
 

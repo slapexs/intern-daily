@@ -1,15 +1,27 @@
-import { FC } from "react"
+import { FC, useState, useEffect } from "react"
 import Navbar from "../components/Navbar"
 import InputFields from "../components/InputField"
 import ListRecord from "../components/ListRecord"
+import axios from "axios"
 
 import ArrowUpDownLineIcon from "remixicon-react/ArrowUpDownLineIcon"
 
+export type getRecordsProp = {
+	recordId: string
+	topic: string
+	detail: string
+	date: string
+	imageName: string
+}
+
 const FindPage: FC = () => {
-	const listElem = []
-	for (let index = 0; index < 15; index++) {
-		listElem.push(<ListRecord title={index} />)
-	}
+	const [getRecords, setGetRecords] = useState<getRecordsProp[]>([])
+
+	useEffect(() => {
+		axios.get("http://localhost:5000/record/all").then((res) => {
+			setGetRecords(res.data.records)
+		})
+	}, [])
 	return (
 		<section className="w-full flex justify-center mb-20">
 			<div className="w-11/12 mt-10">
@@ -35,8 +47,13 @@ const FindPage: FC = () => {
 						</div>
 					</div>
 
-					{listElem.map((elem, index) => (
-						<div key={index}>{elem}</div>
+					{getRecords.map((elem, index) => (
+						<ListRecord
+							date={elem.date}
+							title={elem.topic}
+							recordId={elem.recordId}
+							key={index}
+						/>
 					))}
 				</div>
 			</div>
