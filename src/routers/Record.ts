@@ -1,4 +1,5 @@
 import express, { Request, Response, Router } from "express"
+import multer, { Multer } from "multer"
 const router: Router = express.Router()
 import {
 	insertRecords,
@@ -8,11 +9,37 @@ import {
 	updateRecord,
 } from "../model/Record"
 
-// Create new
-router.post("/create", async (req: Request, res: Response) => {
-	const { status, statusCode } = await insertRecords(req.body)
-	res.status(statusCode).json({ status })
+const storage = multer.diskStorage({
+	destination: (req, file, callback) => {
+		callback(null, "./upload/")
+	},
+	filename: (req, file, callback) => {
+		const imgExt = file.originalname.split(".")
+		const imageNewname = `upload-${Date.now()}.${imgExt[1]}`
+		callback(null, imageNewname)
+	},
 })
+
+const upload = multer({ storage })
+
+// Create new
+router.post(
+	"/create",
+	upload.array("file"),
+	async (req: Request, res: Response) => {
+		const fileNames: string[] = (req.files as Express.Multer.File[]).map(
+			(file: Express.Multer.File) => file.originalname
+		)
+		const { topic, detail, date } = req.body
+		const { status, statusCode } = await insertRecords({
+			topic,
+			detail,
+			date,
+			imageName: fileNames.join(","),
+		})
+		res.status(statusCode).json({ status })
+	}
+)
 
 // Find all records
 router.get("/all", async (req: Request, res: Response) => {
