@@ -34,3 +34,12 @@
 	width: 100%;
 	height: 100%;
 }
+
+.large-gallery-image {
+	min-height: 250px;
+	max-height: 250px;
+	object-fit: cover;
+	ovject-position: center;
+	width: 100%;
+	height: 100%;
+}
