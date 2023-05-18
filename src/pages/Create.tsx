@@ -7,7 +7,7 @@ import FileInputField from "../components/FileInputField"
 const CratePage: FC = () => {
 	return (
 		<section className="w-full flex justify-center">
-			<div className="w-11/12 mt-10">
+			<div className="w-10/12 mt-10">
 				<div className="mb-5 space-y-2">
 					<h1 className="font-bold text-3xl">Create new</h1>
 					<p className="font-light text-gray-500 tracking-wider">

@@ -24,7 +24,7 @@ const FindPage: FC = () => {
 	}, [])
 	return (
 		<section className="w-full flex justify-center mb-20">
-			<div className="w-11/12 mt-10">
+			<div className="w-10/12 mt-10">
 				<div className="mb-5 space-y-2">
 					<h1 className="font-bold text-3xl">Find record</h1>
 					<p className="font-light text-gray-500 tracking-wider">
