@@ -28,7 +28,7 @@ router.post(
 	upload.array("file"),
 	async (req: Request, res: Response) => {
 		const fileNames: string[] = (req.files as Express.Multer.File[]).map(
-			(file: Express.Multer.File) => file.originalname
+			(file: Express.Multer.File) => file.filename
 		)
 		const { topic, detail, date } = req.body
 		const { status, statusCode } = await insertRecords({
