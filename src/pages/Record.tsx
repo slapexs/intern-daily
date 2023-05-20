@@ -46,9 +46,17 @@ const Record: FC = () => {
 				</div>
 
 				{/* Image */}
-				<div className="mt-10">
+				<div className="mt-10 flex justify-center flex-col">
 					<p className="text-gray-500">รูปภาพ</p>
 					{/* Display image here */}
+					{images.map((elem, index) => (
+						<img
+							key={index}
+							src={`http://localhost:5000/image/${elem}`}
+							alt={`image-${elem}`}
+							className="my-2 rounded"
+						/>
+					))}
 				</div>
 			</div>
 
