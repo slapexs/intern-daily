@@ -6,6 +6,7 @@ dotenv.config()
 // Router
 const userRouter = require("./routers/User")
 const recordRouter = require("./routers/Record")
+const imageRouter = require("./routers/Image")
 
 const app: Application = express()
 const port: number = 5000
@@ -22,5 +23,6 @@ app.get("/", (req: Request, res: Response) =>
 // Controller
 app.use("/user", userRouter)
 app.use("/record", recordRouter)
+app.use("/image", imageRouter)
 
 app.listen(port, () => console.log(`Server running on port ${port}`))
