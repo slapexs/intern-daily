@@ -13,22 +13,20 @@ type recordProps = {
 	imageName: string
 }
 
-const imageGallery = [
-	"https://images.unsplash.com/photo-1536148935331-408321065b18?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-	"https://images.unsplash.com/photo-1531973576160-7125cd663d86?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-	"https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-	"https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-]
-
 const Record: FC = () => {
 	const [findRecord, setFindRecord] = useState<recordProps>()
+	const [images, setImages] = useState<string[]>([])
 
 	const { recordId }: Readonly<Params<string>> = useParams()
+
 	useEffect(() => {
-		axios
-			.get(`http://localhost:5000/record/find/${recordId}`)
-			.then((res) => setFindRecord(res.data.data))
+		axios.get(`http://localhost:5000/record/find/${recordId}`).then((res) => {
+			setFindRecord(res.data.data)
+
+			setImages(res.data.data.imageName.split(","))
+		})
 	}, [])
+
 	return (
 		<section className="w-full flex justify-center mb-20">
 			<div className="w-10/12 mt-10 ">
@@ -50,9 +48,7 @@ const Record: FC = () => {
 				{/* Image */}
 				<div className="mt-10">
 					<p className="text-gray-500">รูปภาพ</p>
-					{imageGallery.map((elem, index) => (
-						<img src={elem} key={index} className="mb-2 large-gallery-image" />
-					))}
+					{/* Display image here */}
 				</div>
 			</div>
 
