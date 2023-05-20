@@ -1,5 +1,6 @@
 import { FC, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
 const Login: FC = () => {
 	const navigate = useNavigate()
@@ -9,15 +10,22 @@ const Login: FC = () => {
 	const setTokenAuth = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
-		// Check username & password
-		if (username == "slapexs") {
-			localStorage.setItem("auth-token", username)
-			navigate("/")
-		} else {
-			alert("Username is invalid")
-			setUsername("")
-			setPassword("")
-		}
+		axios
+			.post(
+				"http://localhost:5000/user/login",
+				{ username, password },
+				{
+					headers: { "Content-type": "Application/json" },
+				}
+			)
+			.then((res) => {
+				localStorage.setItem("auth-token", res.data.token)
+				navigate("/")
+			})
+			.catch((err) => {
+				alert(err.response.data.status)
+				setPassword("")
+			})
 	}
 
 	return (
