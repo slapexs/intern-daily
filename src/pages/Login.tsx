@@ -12,7 +12,7 @@ const Login: FC = () => {
 
 		axios
 			.post(
-				"http://localhost:5000/user/login",
+				"http://localhost:5000/auth/login",
 				{ username, password },
 				{
 					headers: { "Content-type": "Application/json" },

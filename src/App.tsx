@@ -1,14 +1,23 @@
-import { FC, useEffect } from "react"
+import { FC, useEffect, useState } from "react"
 import Navbar from "./components/Navbar"
 import { useNavigate, NavigateFunction } from "react-router-dom"
 import HighlightHeader from "./components/HighlightHeader"
 import TopNavbar from "./components/TopNavbar"
+import axios from "axios"
 
 const App: FC = () => {
+	const [name, setName] = useState<string>("")
 	const navigate: NavigateFunction = useNavigate()
 
+	const authToken: string | null = localStorage.getItem("auth-token")
 	useEffect(() => {
-		const authToken: string | null = localStorage.getItem("auth-token")
+		axios
+			.post(
+				"http://localhost:5000/auth/user",
+				{},
+				{ headers: { Authorization: `Bearer ${authToken}` } }
+			)
+			.then((res) => setName(res.data.response.name))
 		if (!authToken) {
 			navigate("/login")
 		}
@@ -17,7 +26,7 @@ const App: FC = () => {
 		<main className="mb-20">
 			<main className="w-full flex justify-center mt-10">
 				<section className="w-10/12">
-					<TopNavbar />
+					<TopNavbar user={name} />
 					{/* Main content */}
 					<HighlightHeader />
 				</section>

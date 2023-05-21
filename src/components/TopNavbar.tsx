@@ -1,11 +1,14 @@
 import iconProfile from "../assets/icons8-stan-marsh-48.png"
-import { FC, useState } from "react"
+import { FC } from "react"
 import LogoutBoxRLineIcon from "remixicon-react/LogoutBoxRLineIcon"
 import { useNavigate } from "react-router-dom"
+type userProps = {
+	user: string
+}
 
-const TopNavbar: FC = () => {
+const TopNavbar: FC<userProps> = ({ user }) => {
 	const navigate = useNavigate()
-	const [user, setUser] = useState<string>("Mai bok na")
+
 	return (
 		<section className="w-full flex justify-between items-center mb-5">
 			<div id="avatar" className="flex items-center space-x-2">
