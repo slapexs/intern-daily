@@ -22,10 +22,15 @@ const checkUser = async (username: string) => {
 	return user
 }
 
-interface createUserProps {
+export interface createUserProps {
 	username: string
 	password: string
 	name: string
+}
+
+const findUserById = async (userId: string | jwt.JwtPayload) => {
+	const user = await collection.findOne({ userId })
+	return user
 }
 
 export interface responseStatusProps {
@@ -57,34 +62,4 @@ const createUser = async ({ username, password, name }: createUserProps) => {
 	}
 }
 
-// Authentication
-const authUser = async (username: string, password: string) => {
-	const findUser = await checkUser(username)
-	if (findUser.length < 1) {
-		const response: responseStatusProps = {
-			status: "Username was not found",
-			statusCode: 401,
-		}
-		return response
-	} else {
-		// check match username password
-		const passwordMatched = bcrypt.compareSync(password, findUser[0].password)
-		if (passwordMatched) {
-			const authSecret = "intern-daily"
-			const token = await jwt.sign(findUser[0].userId, authSecret)
-			const response: responseStatusProps = {
-				status: "Password is matched",
-				statusCode: 200,
-				token: token,
-			}
-			return response
-		} else {
-			const response: responseStatusProps = {
-				status: "Password is not match",
-				statusCode: 401,
-			}
-			return response
-		}
-	}
-}
-export { findUsers, createUser, authUser }
+export { checkUser, findUsers, createUser, findUserById }
