@@ -10,6 +10,7 @@ import CratePage from "./pages/Create.tsx"
 import FindPage from "./pages/Find.tsx"
 import Login from "./pages/Login.tsx"
 import Record from "./pages/Record.tsx"
+import Timestamp from "./pages/Timestamp.tsx"
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<BrowserRouter>
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 				<Route path="/" element={<App />} />
 				<Route path="/create" element={<CratePage />} />
 				<Route path="/find" element={<FindPage />} />
+				<Route path="/timestamp" element={<Timestamp />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/record">
 					<Route path=":recordId" element={<Record />} />

@@ -2,6 +2,7 @@
 import Home4LineIcon from "remixicon-react/Home4LineIcon"
 import AddLineIcon from "remixicon-react/AddLineIcon"
 import SearchLineIcon from "remixicon-react/SearchLineIcon"
+import TimeLineIcon from "remixicon-react/TimeLineIcon"
 
 import { RemixiconReactIconComponentType } from "remixicon-react"
 
@@ -23,6 +24,12 @@ export const links: linkProps = [
 		path: "/create",
 		label: "Create",
 		icon: <AddLineIcon />,
+		showInNavbar: true,
+	},
+	{
+		path: "/timestamp",
+		label: "Timestamp",
+		icon: <TimeLineIcon />,
 		showInNavbar: true,
 	},
 	{
