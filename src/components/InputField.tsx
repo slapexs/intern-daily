@@ -6,6 +6,7 @@ type inputProps = {
 	label: string
 	changeFunction: (s: string) => void
 	required: boolean
+	value?: string | number
 }
 
 const InputFields: FC<inputProps> = ({
@@ -14,6 +15,7 @@ const InputFields: FC<inputProps> = ({
 	label,
 	changeFunction,
 	required,
+	value,
 }) => {
 	return (
 		<div className="my-5">
@@ -25,6 +27,7 @@ const InputFields: FC<inputProps> = ({
 				className="rounded-lg bg-zinc-50 outline outline-2 outline-gray-200 mt-1 w-full py-4 px-5 focus:outline-violet-300"
 				onChange={(e) => changeFunction(e.target.value)}
 				required={required}
+				value={value}
 			/>
 		</div>
 	)
