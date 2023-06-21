@@ -1,5 +1,9 @@
 import express, { Router, Request, Response } from "express"
-import { insertTimestamp, recentTimestamp } from "../model/Timestamp"
+import {
+	insertTimestamp,
+	recentTimestamp,
+	findTimestamp,
+} from "../model/Timestamp"
 const router: Router = express.Router()
 
 router.post("/add", async (req: Request, res: Response) => {
@@ -14,4 +18,9 @@ router.get("/recent/:uid/:length", async (req: Request, res: Response) => {
 	res.status(statusCode).json({ status, data })
 })
 
+router.get("/findone/:date", async (req: Request, res: Response) => {
+	const { date } = req.params
+	const { data, status, statusCode } = await findTimestamp(date)
+	res.status(statusCode).json({ status, data })
+})
 module.exports = router

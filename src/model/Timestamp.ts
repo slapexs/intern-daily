@@ -74,4 +74,18 @@ const recentTimestamp = async (uid: string, length: string) => {
 	return response
 }
 
-export { insertTimestamp, recentTimestamp }
+const findTimestamp = async (date: string) => {
+	let response: responseStatusProps = { status: "", statusCode: 200 }
+	if (!date) {
+		response = { status: "Please send date for get data", statusCode: 401 }
+		return response
+	}
+	const data = await collection.findOne(
+		{ date },
+		{ projection: { _id: 0, recordId: 0, uid: 0 } }
+	)
+	response = { status: "Found timestamp", statusCode: 200, data }
+	return response
+}
+
+export { insertTimestamp, recentTimestamp, findTimestamp }
