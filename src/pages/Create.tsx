@@ -72,7 +72,7 @@ const CratePage: FC = () => {
 							label="รูปภาพ"
 							isMultipleFiles={true}
 							name="record-images"
-							required={true}
+							required={false}
 							changeFunction={setImageName}
 						/>
 						<button
