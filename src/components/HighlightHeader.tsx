@@ -13,14 +13,25 @@ const imageGallery = [
 
 const HighlightHeader: FC = () => {
 	const [passedDay, setPassedDay] = useState<number>(0)
-	const [leftDay, setLeftDay] = useState<number>(120)
-
+	const [leftDay, setLeftDay] = useState<number>(0)
 	const [getRecords, setGetRecords] = useState<getRecordsProp[]>([])
 
 	useEffect(() => {
 		axios.get("http://localhost:5000/record/all").then((res) => {
 			setGetRecords(res.data.records)
 		})
+		// Date calculate
+		const currentDate = new Date()
+		const desiredDate = new Date("2023-09-31")
+		const startDate = new Date("2023-05-31")
+		const startDiffDate = Math.floor(
+			(currentDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
+		)
+		const diffInDays = Math.floor(
+			(desiredDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)
+		)
+		setLeftDay(diffInDays)
+		setPassedDay(startDiffDate)
 	}, [])
 
 	return (
