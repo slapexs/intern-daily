@@ -23,7 +23,7 @@ const insertRecords = async ({
 	imageName,
 }: recordProps) => {
 	// check empty
-	if (!topic || !detail || !date || !imageName) {
+	if (!topic || !detail || !date) {
 		const response: responseStatusProps = {
 			status: "Some input is empty please check",
 			statusCode: 400,
