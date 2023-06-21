@@ -3,6 +3,7 @@ import { useParams, Params } from "react-router-dom"
 import Navbar from "../components/Navbar"
 import axios from "axios"
 import CalendarLineIcon from "remixicon-react/CalendarLineIcon"
+import TimeLineIcon from "remixicon-react/TimeLineIcon"
 import "../index.css"
 
 type recordProps = {
@@ -16,14 +17,23 @@ type recordProps = {
 const Record: FC = () => {
 	const [findRecord, setFindRecord] = useState<recordProps>()
 	const [images, setImages] = useState<string[]>([])
+	const [timestamp, setTimestamp] = useState<string>("")
 
 	const { recordId }: Readonly<Params<string>> = useParams()
-
+	const getTimestamp = async (date: string) => {
+		const res = await axios.get(
+			`http://localhost:5000/timestamp/findone/${date}`
+		)
+		if (res.data.data) {
+			setTimestamp(`${res.data.data.enterTime} - ${res.data.data.leaveTime}`)
+		}
+	}
 	useEffect(() => {
 		axios.get(`http://localhost:5000/record/find/${recordId}`).then((res) => {
-			setFindRecord(res.data.data)
-
-			setImages(res.data.data.imageName.split(","))
+			const response = res.data.data
+			setFindRecord(response)
+			setImages(response.imageName.split(","))
+			getTimestamp(response.date)
 		})
 	}, [])
 
@@ -39,6 +49,10 @@ const Record: FC = () => {
 					<CalendarLineIcon /> {findRecord?.date}
 				</div>
 
+				<div className="flex gap-x-2 text-sm text-gray-500">
+					<TimeLineIcon /> {timestamp ? timestamp : "-"}
+				</div>
+
 				{/* detail */}
 				<div className="mt-10">
 					<p className="text-gray-500">รายละเอียด</p>
@@ -52,7 +66,11 @@ const Record: FC = () => {
 					{images.map((elem, index) => (
 						<img
 							key={index}
-							src={`http://localhost:5000/image/${elem}`}
+							src={
+								elem
+									? `http://localhost:5000/image/${elem}`
+									: "https://placehold.co/600x600?font=roboto&text=Image+Not+Uploaded"
+							}
 							alt={`image-${elem}`}
 							className="my-2 rounded"
 						/>
