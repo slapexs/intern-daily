@@ -16,6 +16,7 @@ export type getRecordsProp = {
 
 const FindPage: FC = () => {
 	const [getRecords, setGetRecords] = useState<getRecordsProp[]>([])
+	const [searchDate, setSearchDate] = useState<string>("")
 
 	useEffect(() => {
 		axios.get("http://localhost:5000/record/all").then((res) => {
@@ -33,7 +34,20 @@ const FindPage: FC = () => {
 				</div>
 
 				<div className="my-10">
-					<InputFields id="search-input" label="ค้นหา" type="text" />
+					<InputFields
+						required={false}
+						changeFunction={setSearchDate}
+						id="search-input"
+						label="ค้นหาด้วยวันที่"
+						type="date"
+					/>
+					<button
+						type="button"
+						className="px-3 py-2 rounded bg-violet-500 text-white w-full"
+						onClick={() => console.log(searchDate)}
+					>
+						ค้นหา
+					</button>
 				</div>
 
 				<div className="my-10">
