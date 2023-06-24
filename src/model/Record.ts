@@ -121,6 +121,7 @@ const getLimitRecord = async (limit: number) => {
 
 	const records = await collection
 		.find()
+		.sort({ date: -1 })
 		.limit(limit)
 		.project({ _id: 0, detail: 0, imageName: 0 })
 		.toArray()

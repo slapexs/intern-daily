@@ -9,6 +9,7 @@ import {
 	updateRecord,
 	getLimitRecord,
 } from "../model/Record"
+import { verifyAuth } from "../service/UserAuth"
 
 const storage = multer.diskStorage({
 	destination: (req, file, callback) => {
@@ -84,6 +85,13 @@ router.post("/limit", async (req: Request, res: Response) => {
 	const { limit } = req.body
 	const { data, status, statusCode } = await getLimitRecord(limit)
 	res.status(statusCode).json({ status, data })
+})
+
+router.post("/test", async (req: Request, res: Response) => {
+	const header = req.headers.authorization
+	const token = header?.split(" ")[1]
+	const userToken = await verifyAuth(token)
+	res.json({ data: userToken })
 })
 
 module.exports = router
