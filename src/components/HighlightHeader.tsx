@@ -17,9 +17,12 @@ const HighlightHeader: FC = () => {
 	const [getRecords, setGetRecords] = useState<getRecordsProp[]>([])
 
 	useEffect(() => {
-		axios.get("http://localhost:5000/record/all").then((res) => {
-			setGetRecords(res.data.records)
-		})
+		const limitDefault = 3
+		axios
+			.post("http://localhost:5000/record/limit", { limit: limitDefault })
+			.then((res) => {
+				setGetRecords(res.data.data)
+			})
 		// Date calculate
 		const currentDate = new Date()
 		const desiredDate = new Date("2023-09-31")
