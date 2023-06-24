@@ -49,8 +49,12 @@ router.post(
 )
 
 // Find all records
-router.get("/all", async (req: Request, res: Response) => {
-	const resData = await findRecords()
+router.post("/all", async (req: Request, res: Response) => {
+	const checkToken = getUserToken(req)
+	if (!checkToken.hasToken) {
+		res.status(401).json({ status: "unauthorized" })
+	}
+	const resData = await findRecords(checkToken.token)
 	res.status(200).json({ records: resData })
 })
 

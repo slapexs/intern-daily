@@ -63,8 +63,12 @@ const insertRecords = async ({
 }
 
 // Find all records
-const findRecords = async () => {
-	const records = await collection.find().project({ _id: 0 }).toArray()
+const findRecords = async (token: string) => {
+	const user: verifyUserProps = verifyAuth(token)
+	const records = await collection
+		.find({ uid: user.id })
+		.project({ _id: 0 })
+		.toArray()
 	return records
 }
 
