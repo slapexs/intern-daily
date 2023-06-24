@@ -7,6 +7,7 @@ import {
 	findById,
 	delRecord,
 	updateRecord,
+	getLimitRecord,
 } from "../model/Record"
 
 const storage = multer.diskStorage({
@@ -75,6 +76,13 @@ router.put("/update/:id", async (req: Request, res: Response) => {
 		date,
 		imageName,
 	})
+	res.status(statusCode).json({ status, data })
+})
+
+// Find record with limit
+router.post("/limit", async (req: Request, res: Response) => {
+	const { limit } = req.body
+	const { data, status, statusCode } = await getLimitRecord(limit)
 	res.status(statusCode).json({ status, data })
 })
 

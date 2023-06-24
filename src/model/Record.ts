@@ -111,4 +111,27 @@ const updateRecord = async (
 		return response
 	}
 }
-export { insertRecords, findRecords, findById, delRecord, updateRecord }
+
+const getLimitRecord = async (limit: number) => {
+	let response: responseStatusProps = { status: "", statusCode: 200 }
+	// if (!uid) {
+	// 	response = { status: "", statusCode: 401 }
+	// 	return response
+	// }
+
+	const records = await collection
+		.find()
+		.limit(limit)
+		.project({ _id: 0, detail: 0, imageName: 0 })
+		.toArray()
+	response = { status: "Found record", statusCode: 200, data: records }
+	return response
+}
+export {
+	insertRecords,
+	findRecords,
+	findById,
+	delRecord,
+	updateRecord,
+	getLimitRecord,
+}
