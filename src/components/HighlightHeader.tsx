@@ -18,8 +18,13 @@ const HighlightHeader: FC = () => {
 
 	useEffect(() => {
 		const limitDefault = 3
+		const authToken = localStorage.getItem("auth-token")
 		axios
-			.post("http://localhost:5000/record/limit", { limit: limitDefault })
+			.post(
+				"http://localhost:5000/record/limit",
+				{ limit: limitDefault },
+				{ headers: { Authorization: `Bearer ${authToken}` } }
+			)
 			.then((res) => {
 				setGetRecords(res.data.data)
 			})

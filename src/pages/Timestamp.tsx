@@ -15,24 +15,20 @@ const Timestamp: FC = () => {
 	const [enterTimestamp, setEnterTimestamp] = useState<string>("")
 	const [leaveTimestamp, setLeaveTimestamp] = useState<string>("")
 	const [listTimestamp, setListTimestamp] = useState<recentTimestamp>([])
-	const [limitRecentTimestamp, setLimitRecentTimestamp] = useState<string>("10")
+	const [limitRecentTimestamp, setLimitRecentTimestamp] = useState<number>(7)
 
 	// Function get recent timestamp
 	const getRecentTimestamp = async (e: any = null) => {
 		const authToken = localStorage.getItem("auth-token")
-		const response = await axios.post(
-			"http://localhost:5000/auth/user",
-			{},
+
+		const { data } = await axios.post(
+			`http://localhost:5000/timestamp/recent`,
+			{ length: limitRecentTimestamp },
 			{
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
 			}
-		)
-		const { data } = await axios.get(
-			`http://localhost:5000/timestamp/recent/${response.data.response.id}/${
-				!e ? limitRecentTimestamp : e.target.value
-			}`
 		)
 		setListTimestamp(data.data)
 	}
@@ -49,29 +45,26 @@ const Timestamp: FC = () => {
 
 		// Get list timestamp
 		getRecentTimestamp()
-	}, [])
+	}, [limitRecentTimestamp])
 
 	const submitTimestamp = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		const token = localStorage.getItem("auth-token")
 
-		const { data } = await axios.post(
-			"http://localhost:5000/auth/user",
-			{},
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			}
-		)
-
 		try {
-			const res = await axios.post("http://localhost:5000/timestamp/add", {
-				date: dateTimestamp,
-				enterTime: enterTimestamp,
-				leaveTime: leaveTimestamp,
-				uid: data.response.id,
-			})
+			const res = await axios.post(
+				"http://localhost:5000/timestamp/add",
+				{
+					date: dateTimestamp,
+					enterTime: enterTimestamp,
+					leaveTime: leaveTimestamp,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
 			alert(res.data.status)
 			setEnterTimestamp("")
 			setLeaveTimestamp("")
@@ -135,9 +128,11 @@ const Timestamp: FC = () => {
 							<select
 								name="recentLimit"
 								id="recentLimit"
-								onChange={(e) => getRecentTimestamp(e)}
+								onChange={(e) =>
+									setLimitRecentTimestamp(parseInt(e.target.value))
+								}
 							>
-								<option value="10" disabled>
+								<option value="10" disabled hidden selected>
 									จำนวนวัน
 								</option>
 								<option value="1">1</option>

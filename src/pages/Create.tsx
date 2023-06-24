@@ -24,11 +24,15 @@ const CratePage: FC = () => {
 		for (let i = 0; i < imageName.length; i++) {
 			formData.append("file", imageName[i])
 		}
-
-		axios.post("http://localhost:5000/record/create", formData).then((res) => {
-			alert(res.data.status)
-			navigate("/find")
-		})
+		const token = localStorage.getItem("auth-token")
+		axios
+			.post("http://localhost:5000/record/create", formData, {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((res) => {
+				alert(res.data.status)
+				navigate("/find")
+			})
 	}
 	return (
 		<section className="w-full flex justify-center">

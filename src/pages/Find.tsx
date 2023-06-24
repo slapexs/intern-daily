@@ -17,11 +17,17 @@ export type getRecordsProp = {
 const FindPage: FC = () => {
 	const [getRecords, setGetRecords] = useState<getRecordsProp[]>([])
 	const [searchDate, setSearchDate] = useState<string>("")
-
+	const authToken = localStorage.getItem("auth-token")
 	useEffect(() => {
-		axios.get("http://localhost:5000/record/all").then((res) => {
-			setGetRecords(res.data.records)
-		})
+		axios
+			.post(
+				"http://localhost:5000/record/all",
+				{},
+				{ headers: { Authorization: `Bearer ${authToken}` } }
+			)
+			.then((res) => {
+				setGetRecords(res.data.records)
+			})
 	}, [])
 	return (
 		<section className="w-full flex justify-center mb-20">

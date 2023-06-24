@@ -20,9 +20,14 @@ const Record: FC = () => {
 	const [timestamp, setTimestamp] = useState<string>("")
 
 	const { recordId }: Readonly<Params<string>> = useParams()
+	const authToken = localStorage.getItem("auth-token")
 	const getTimestamp = async (date: string) => {
-		const res = await axios.get(
-			`http://localhost:5000/timestamp/findone/${date}`
+		const res = await axios.post(
+			`http://localhost:5000/timestamp/findbydate`,
+			{
+				date,
+			},
+			{ headers: { Authorization: `Bearer ${authToken}` } }
 		)
 		if (res.data.data) {
 			setTimestamp(`${res.data.data.enterTime} - ${res.data.data.leaveTime}`)
