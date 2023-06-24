@@ -4,8 +4,9 @@ import dotenv from "dotenv"
 dotenv.config()
 import * as jwt from "jsonwebtoken"
 import { v4 as uuidv4 } from "uuid"
+import { config } from "../../config/index"
 
-const uri: any = process.env.DB_URI
+const uri: string = config.DB_URI as string
 const client: MongoClient = new MongoClient(uri)
 const db: Db = client.db()
 const collection: Collection = db.collection("users")
