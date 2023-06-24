@@ -3,8 +3,11 @@ import dotenv from "dotenv"
 dotenv.config()
 import { responseStatusProps } from "./User"
 import { v4 } from "uuid"
+import { config } from "../../config/index"
+import { verifyAuth } from "../service/UserAuth"
+import { verifyUserProps } from "../service/UserAuth"
 
-const uri: any = process.env.DB_URI
+const uri: string = config.DB_URI as string
 const client: MongoClient = new MongoClient(uri)
 const db: Db = client.db()
 const collection: Collection = db.collection("records")
@@ -15,12 +18,14 @@ interface recordProps {
 	detail: string
 	date: string
 	imageName: string
+	token: string
 }
 const insertRecords = async ({
 	topic,
 	detail,
 	date,
 	imageName,
+	token,
 }: recordProps) => {
 	// check empty
 	if (!topic || !detail || !date) {
@@ -31,9 +36,24 @@ const insertRecords = async ({
 
 		return response
 	} else {
+		if (!token) {
+			const response: responseStatusProps = {
+				status: "unauthorized",
+				statusCode: 401,
+			}
+			return response
+		}
+		const user = verifyAuth(token)
 		// Insert new record
 		const recordId = v4()
-		collection.insertOne({ recordId, topic, detail, date, imageName })
+		collection.insertOne({
+			recordId,
+			topic,
+			detail,
+			date,
+			imageName,
+			uid: user.id,
+		})
 		const response: responseStatusProps = {
 			status: "New record inserted!",
 			statusCode: 200,
@@ -90,7 +110,7 @@ const delRecord = (recordId: string) => {
 // Update record
 const updateRecord = async (
 	recordId: string,
-	{ topic, detail, date, imageName }: recordProps
+	{ topic, detail, date, imageName, token }: recordProps
 ) => {
 	if (!recordId) {
 		const response: responseStatusProps = {
@@ -99,7 +119,15 @@ const updateRecord = async (
 		}
 		return response
 	} else {
-		const filter = { recordId }
+		if (!token) {
+			const response: responseStatusProps = {
+				status: "unauthorized",
+				statusCode: 401,
+			}
+			return response
+		}
+		const user: verifyUserProps = verifyAuth(token)
+		const filter = { recordId, uid: user.id }
 		const update = { $set: { topic, detail, date, imageName } }
 		collection.updateOne(filter, update)
 		const { data } = await findById(recordId)
@@ -112,16 +140,18 @@ const updateRecord = async (
 	}
 }
 
-const getLimitRecord = async (limit: number) => {
+const getLimitRecord = async (limit: number, token: string) => {
 	let response: responseStatusProps = { status: "", statusCode: 200 }
-	// if (!uid) {
-	// 	response = { status: "", statusCode: 401 }
-	// 	return response
-	// }
+	if (!token) {
+		response = { status: "unauthorized", statusCode: 401 }
+		return response
+	}
+	const user: verifyUserProps = verifyAuth(token)
 
 	const records = await collection
 		.find()
 		.sort({ date: -1 })
+		.filter({ uid: user.id })
 		.limit(limit)
 		.project({ _id: 0, detail: 0, imageName: 0 })
 		.toArray()

@@ -9,7 +9,7 @@ import {
 	updateRecord,
 	getLimitRecord,
 } from "../model/Record"
-import { verifyAuth } from "../service/UserAuth"
+import { verifyAuth, getUserToken } from "../service/UserAuth"
 
 const storage = multer.diskStorage({
 	destination: (req, file, callback) => {
@@ -29,6 +29,10 @@ router.post(
 	"/create",
 	upload.array("file"),
 	async (req: Request, res: Response) => {
+		const checkToken = getUserToken(req)
+		if (!checkToken.hasToken) {
+			res.status(401).json({ status: "unauthorized" })
+		}
 		const fileNames: string[] = (req.files as Express.Multer.File[]).map(
 			(file: Express.Multer.File) => file.filename
 		)
@@ -38,6 +42,7 @@ router.post(
 			detail,
 			date,
 			imageName: fileNames.join(","),
+			token: checkToken.token,
 		})
 		res.status(statusCode).json({ status })
 	}
@@ -69,6 +74,10 @@ router.delete("/del/:id", async (req: Request, res: Response) => {
 
 // Update record
 router.put("/update/:id", async (req: Request, res: Response) => {
+	const checkToken = getUserToken(req)
+	if (!checkToken.hasToken) {
+		res.status(401).json({ status: "unauthorized" })
+	}
 	const recordId: string = req.params.id
 	const { topic, detail, date, imageName } = req.body
 	const { status, statusCode, data } = await updateRecord(recordId, {
@@ -76,6 +85,7 @@ router.put("/update/:id", async (req: Request, res: Response) => {
 		detail,
 		date,
 		imageName,
+		token: checkToken.token,
 	})
 	res.status(statusCode).json({ status, data })
 })
@@ -83,7 +93,14 @@ router.put("/update/:id", async (req: Request, res: Response) => {
 // Find record with limit
 router.post("/limit", async (req: Request, res: Response) => {
 	const { limit } = req.body
-	const { data, status, statusCode } = await getLimitRecord(limit)
+	const checkToken = getUserToken(req)
+	if (!checkToken.hasToken) {
+		res.status(401).json({ status: "unauthorized" })
+	}
+	const { data, status, statusCode } = await getLimitRecord(
+		limit,
+		checkToken.token
+	)
 	res.status(statusCode).json({ status, data })
 })
 
