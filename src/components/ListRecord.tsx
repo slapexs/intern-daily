@@ -2,6 +2,7 @@ import { FC } from "react"
 import CalendarLineIcon from "remixicon-react/CalendarLineIcon"
 import StartLineIcon from "remixicon-react/StarLineIcon"
 import { NavLink } from "react-router-dom"
+import moment from "moment"
 
 type listProps = {
 	title: string
@@ -20,7 +21,7 @@ const ListRecord: FC<listProps> = ({ title, date, recordId }) => {
 				</NavLink>
 				<p className="text-xs font-light text-gray-400 flex items-center gap-x-2">
 					<CalendarLineIcon />
-					{date}
+					{moment(date).add(543, "year").format("DD/MM/YYYY")}
 				</p>
 			</div>
 
