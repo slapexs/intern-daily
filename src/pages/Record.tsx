@@ -5,12 +5,15 @@ import axios from "axios"
 import CalendarLineIcon from "remixicon-react/CalendarLineIcon"
 import TimeLineIcon from "remixicon-react/TimeLineIcon"
 import "../index.css"
+import moment from "moment"
 
 type recordProps = {
 	recordId: string
 	topic: string
 	detail: string
 	date: string
+	enterTime: Date | string
+	leaveTime: Date | string
 	imageName: string
 }
 
@@ -44,29 +47,31 @@ const Record: FC = () => {
 
 	return (
 		<section className="w-full flex justify-center mb-20">
-			<div className="w-10/12 mt-10 ">
+			<div className="w-10/12 mt-10">
 				<div className="mb-5 space-y-2">
 					<h1 className="font-bold text-2xl text-violet-600">
 						{findRecord?.topic}
 					</h1>
 				</div>
-				<div className="flex gap-x-2 text-sm mt-5 text-gray-500">
-					<CalendarLineIcon /> {findRecord?.date}
+				<div className="flex gap-x-2 text-sm mt-5 mb-2 text-gray-500">
+					<CalendarLineIcon />
+					{moment(findRecord?.date).add(543, "year").format("DD/MM/YYYY")}
 				</div>
 
 				<div className="flex gap-x-2 text-sm text-gray-500">
-					<TimeLineIcon /> {timestamp ? timestamp : "-"}
+					<TimeLineIcon />{" "}
+					{findRecord?.enterTime + " - " + findRecord?.leaveTime}
 				</div>
 
 				{/* detail */}
 				<div className="mt-10">
-					<p className="text-gray-500">รายละเอียด</p>
+					<p className="text-gray-500 mb-2">รายละเอียด</p>
 					<p className="text-justify">{findRecord?.detail}</p>
 				</div>
 
 				{/* Image */}
 				<div className="mt-10 flex justify-center flex-col">
-					<p className="text-gray-500">รูปภาพ</p>
+					<p className="text-gray-500 mb-2">รูปภาพ</p>
 					{/* Display image here */}
 					{images.map((elem, index) => (
 						<img
@@ -77,7 +82,7 @@ const Record: FC = () => {
 									: "https://placehold.co/600x600?font=roboto&text=Image+Not+Uploaded"
 							}
 							alt={`image-${elem}`}
-							className="my-2 rounded"
+							className="my-2 rounded-lg"
 						/>
 					))}
 				</div>
