@@ -5,12 +5,15 @@ import TextareaField from "../components/TextareaField"
 import FileInputField from "../components/FileInputField"
 import axios from "axios"
 import { NavigateFunction, useNavigate } from "react-router-dom"
+import moment from "moment"
 
 const CratePage: FC = () => {
 	const [topic, setTopic] = useState<string>("")
 	const [detail, setDetail] = useState<string>("")
 	const [date, setDate] = useState<string>("")
 	const [imageName, setImageName] = useState<string[]>([])
+	const [enterTime, setEnterTime] = useState<string>("")
+	const [leaveTime, setLeaveTime] = useState<string>("")
 
 	const navigate: NavigateFunction = useNavigate()
 
@@ -21,6 +24,8 @@ const CratePage: FC = () => {
 		formData.append("topic", topic)
 		formData.append("detail", detail)
 		formData.append("date", date)
+		formData.append("enterTime", enterTime)
+		formData.append("leaveTime", leaveTime)
 		for (let i = 0; i < imageName.length; i++) {
 			formData.append("file", imageName[i])
 		}
@@ -79,9 +84,23 @@ const CratePage: FC = () => {
 							required={false}
 							changeFunction={setImageName}
 						/>
+						<InputFields
+							id="enterTime"
+							label="เวลามา"
+							required={true}
+							type="time"
+							changeFunction={setEnterTime}
+						/>
+						<InputFields
+							id="leaveTime"
+							label="เวลากลับ"
+							required={true}
+							type="time"
+							changeFunction={setLeaveTime}
+						/>
 						<button
 							type="submit"
-							className="px-3 py-2 rounded bg-violet-500 text-white w-full"
+							className="px-3 py-2 mb-10 rounded bg-violet-500 text-white w-full"
 						>
 							บันทึก
 						</button>
