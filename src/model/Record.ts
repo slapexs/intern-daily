@@ -19,6 +19,8 @@ interface recordProps {
 	date: string
 	imageName: string
 	token: string
+	enterTime: string
+	leaveTime: string
 }
 const insertRecords = async ({
 	topic,
@@ -26,6 +28,8 @@ const insertRecords = async ({
 	date,
 	imageName,
 	token,
+	enterTime,
+	leaveTime,
 }: recordProps) => {
 	// check empty
 	if (!topic || !detail || !date) {
@@ -51,6 +55,8 @@ const insertRecords = async ({
 			topic,
 			detail,
 			date,
+			enterTime,
+			leaveTime,
 			imageName,
 			uid: user.id,
 		})
@@ -67,6 +73,7 @@ const findRecords = async (token: string) => {
 	const user: verifyUserProps = verifyAuth(token)
 	const records = await collection
 		.find({ uid: user.id })
+		.sort({ date: -1 })
 		.project({ _id: 0 })
 		.toArray()
 	return records
@@ -114,7 +121,7 @@ const delRecord = (recordId: string) => {
 // Update record
 const updateRecord = async (
 	recordId: string,
-	{ topic, detail, date, imageName, token }: recordProps
+	{ topic, detail, date, enterTime, leaveTime, imageName, token }: recordProps
 ) => {
 	if (!recordId) {
 		const response: responseStatusProps = {
@@ -132,7 +139,9 @@ const updateRecord = async (
 		}
 		const user: verifyUserProps = verifyAuth(token)
 		const filter = { recordId, uid: user.id }
-		const update = { $set: { topic, detail, date, imageName } }
+		const update = {
+			$set: { topic, detail, date, enterTime, leaveTime, imageName },
+		}
 		collection.updateOne(filter, update)
 		const { data } = await findById(recordId)
 		const response: responseStatusProps = {
@@ -162,6 +171,33 @@ const getLimitRecord = async (limit: number, token: string) => {
 	response = { status: "Found record", statusCode: 200, data: records }
 	return response
 }
+
+// Search record by date
+const SearchByDate = async (date: string | Date, token: string) => {
+	let response: responseStatusProps = { status: "", statusCode: 200 }
+	if (!token) {
+		response = { status: "unauthorized", statusCode: 401 }
+		return response
+	}
+	const user: verifyUserProps = verifyAuth(token)
+
+	const records = await collection
+		.find()
+		.sort({ date: -1 })
+		.filter({ uid: user.id, date })
+		.project({ _id: 0, detail: 0, imageName: 0 })
+		.toArray()
+	if (records.length > 0) {
+		response = { status: "Record found", statusCode: 200, data: records }
+	} else {
+		response = {
+			status: "None of your records match the date.",
+			statusCode: 204,
+			data: records,
+		}
+	}
+	return response
+}
 export {
 	insertRecords,
 	findRecords,
@@ -169,4 +205,5 @@ export {
 	delRecord,
 	updateRecord,
 	getLimitRecord,
+	SearchByDate,
 }

@@ -8,6 +8,7 @@ import {
 	delRecord,
 	updateRecord,
 	getLimitRecord,
+	SearchByDate,
 } from "../model/Record"
 import { verifyAuth, getUserToken } from "../service/UserAuth"
 
@@ -36,11 +37,13 @@ router.post(
 		const fileNames: string[] = (req.files as Express.Multer.File[]).map(
 			(file: Express.Multer.File) => file.filename
 		)
-		const { topic, detail, date } = req.body
+		const { topic, detail, date, enterTime, leaveTime } = req.body
 		const { status, statusCode } = await insertRecords({
 			topic,
 			detail,
 			date,
+			enterTime,
+			leaveTime,
 			imageName: fileNames.join(","),
 			token: checkToken.token,
 		})
@@ -83,11 +86,13 @@ router.put("/update/:id", async (req: Request, res: Response) => {
 		res.status(401).json({ status: "unauthorized" })
 	}
 	const recordId: string = req.params.id
-	const { topic, detail, date, imageName } = req.body
+	const { topic, detail, date, enterTime, leaveTime, imageName } = req.body
 	const { status, statusCode, data } = await updateRecord(recordId, {
 		topic,
 		detail,
 		date,
+		enterTime,
+		leaveTime,
 		imageName,
 		token: checkToken.token,
 	})
@@ -108,11 +113,18 @@ router.post("/limit", async (req: Request, res: Response) => {
 	res.status(statusCode).json({ status, data })
 })
 
-router.post("/test", async (req: Request, res: Response) => {
-	const header = req.headers.authorization
-	const token = header?.split(" ")[1]
-	const userToken = await verifyAuth(token)
-	res.json({ data: userToken })
+router.post("/searchbydate", async (req: Request, res: Response) => {
+	const { date } = req.body
+	const checkToken = getUserToken(req)
+	if (!checkToken.hasToken) {
+		res.status(401).json({ status: "unauthorized" })
+	}
+	const { status, data, statusCode } = await SearchByDate(
+		date,
+		checkToken.token
+	)
+
+	res.status(statusCode).json({ status, data })
 })
 
 module.exports = router
