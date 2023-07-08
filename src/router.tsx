@@ -30,7 +30,7 @@ export const links: linkProps = [
 		path: "/timestamp",
 		label: "Timestamp",
 		icon: <TimeLineIcon />,
-		showInNavbar: true,
+		showInNavbar: false,
 	},
 	{
 		path: "/find",
