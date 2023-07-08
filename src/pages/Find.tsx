@@ -6,6 +6,9 @@ import axios from "axios"
 
 import CloseLineIcon from "remixicon-react/CloseLineIcon"
 
+// Toast
+import toast, { Toaster } from "react-hot-toast"
+
 export type getRecordsProp = {
 	recordId: string
 	topic: string
@@ -13,6 +16,10 @@ export type getRecordsProp = {
 	date: string
 	imageName: string
 }
+
+// const toastPromise = (promiseFunction: any) => {
+
+// }
 
 const FindPage: FC = () => {
 	const [getRecords, setGetRecords] = useState<getRecordsProp[]>([])
@@ -38,23 +45,40 @@ const FindPage: FC = () => {
 
 	// Search record by date
 	const SearchRecordByDate = async () => {
-		await axios
-			.post(
-				"http://localhost:5000/record/searchbydate",
-				{ date: searchDate },
-				{ headers: { Authorization: `Bearer ${authToken}` } }
-			)
+		if (!searchDate) {
+			toast.error("กรุณาระบุวันที่", {
+				duration: 2000,
+			})
+			return
+		}
+
+		const response = axios.post(
+			"http://localhost:5000/record/searchbydate",
+			{ date: searchDate },
+			{ headers: { Authorization: `Bearer ${authToken}` } }
+		)
+		toast
+			.promise(response, {
+				loading: "กำลังค้นหาข้อมูล",
+				success: "เรียบร้อย",
+				error: (response) =>
+					`ผิดพลาด! ไม่สามารถค้นหาข้อมูลได้ \n Status : ${response.message}`,
+			})
 			.then((res) => {
 				if (res.status == 200) {
-					setGetRecords(res.data.data)
 					setCanClear(true)
-				} else {
-					alert(res.statusText)
+					setGetRecords(res.data.data)
+				} else if (res.status == 204) {
+					toast("ไม่พบบันทึกที่ตรงกับวันที่นี้", { icon: "📭" })
 				}
 			})
 	}
+
 	return (
 		<section className="w-full flex justify-center mb-20">
+			{/* Taost alert */}
+			<Toaster />
+
 			<div className="w-10/12 mt-10">
 				<div className="mb-5 space-y-2">
 					<h1 className="font-bold text-3xl">Find record</h1>
@@ -73,7 +97,9 @@ const FindPage: FC = () => {
 					/>
 					<button
 						type="button"
-						className="px-3 py-2 rounded bg-violet-500 text-white w-full"
+						className={`px-3 py-2 rounded  text-white w-full ${
+							searchDate != "" ? "bg-violet-500" : "bg-violet-200"
+						}`}
 						onClick={SearchRecordByDate}
 					>
 						ค้นหา
