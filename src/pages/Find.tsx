@@ -17,10 +17,6 @@ export type getRecordsProp = {
 	imageName: string
 }
 
-// const toastPromise = (promiseFunction: any) => {
-
-// }
-
 const FindPage: FC = () => {
 	const [getRecords, setGetRecords] = useState<getRecordsProp[]>([])
 	const [searchDate, setSearchDate] = useState<string>("")
