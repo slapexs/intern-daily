@@ -5,7 +5,7 @@ import TextareaField from "../components/TextareaField"
 import FileInputField from "../components/FileInputField"
 import axios from "axios"
 import { NavigateFunction, useNavigate } from "react-router-dom"
-import moment from "moment"
+import toast, { Toaster } from "react-hot-toast"
 
 const CratePage: FC = () => {
 	const [topic, setTopic] = useState<string>("")
@@ -30,17 +30,30 @@ const CratePage: FC = () => {
 			formData.append("file", imageName[i])
 		}
 		const token = localStorage.getItem("auth-token")
-		axios
-			.post("http://localhost:5000/record/create", formData, {
+		const response = axios.post(
+			"http://localhost:5000/record/create",
+			formData,
+			{
 				headers: { Authorization: `Bearer ${token}` },
+			}
+		)
+
+		toast
+			.promise(response, {
+				loading: "กำลังบันทึกข้อมูล",
+				success: (response) => response.data.status,
+				error: (response) =>
+					`ผิดพลาด! ไม่สามารถบันทึกข้อมูลได้ \n Status : ${response.message}`,
 			})
 			.then((res) => {
-				alert(res.data.status)
+				toast.success(res.data.status)
 				navigate("/find")
 			})
 	}
 	return (
 		<section className="w-full flex justify-center">
+			{/* Toast elem */}
+			<Toaster />
 			<div className="w-10/12 mt-10">
 				<div className="mb-5 space-y-2">
 					<h1 className="font-bold text-3xl">Create new</h1>
